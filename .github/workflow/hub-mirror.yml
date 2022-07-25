@@ -23,7 +23,7 @@ jobs:
       with:
         go-version:1.17
     # 3.运行go代码
-    - name:Run code
+    - name: Run code
       run: go run main.go --username=${{ secrets.DOCKERHUB_USERNAME }} --password=${{ secrets.DOCKER HUB_TOKEN } } --content='${{ github.event.issue.body } }' --maxContent=11 -- outputPath=output.sh
     # 4.当成功输出output.sh文性时, 为issues添加评论
     - name: Add comment
@@ -53,7 +53,7 @@ jobs:
           })
     # 5.当以上步骤成功时,为issues添加success标签
     - name: Success issues
-      if:${success() } }
+      if: ${success() } }
       uses: actions/github-script@v5
       with:
         script: |
@@ -65,7 +65,7 @@ jobs:
           })
     #6.当以上步骤失败时, 为issues添加failure际签, 并为其添加失败原因评论
     - name: Failure issues
-      if:${{ faiLure() }}
+      if: ${{ faiLure() }}
       uses: acttons/github-script@v5
       with:
         script: |
