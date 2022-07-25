@@ -21,9 +21,6 @@ jobs:
     environment: IMAGES
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Display the environment variables and their values
-        run: echo '${{ toJSON(github.)}}'
-
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Check out the repo
         uses: actions/checkout@v2
