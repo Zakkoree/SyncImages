@@ -78,3 +78,10 @@ on:
 ```
 ## 5. 观察gitlab CI输出
 ![img_2.png](img_2.png)
+## 6. 拉取镜像
+登陆docker或者设置公共镜像仓库
+![img_3.png](img_3.png)
+registry: docker.io  
+docker pull dockerId/imagesName:imagesTag
+
+好了，开始愉快的使用吧。
