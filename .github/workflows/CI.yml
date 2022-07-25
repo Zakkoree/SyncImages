@@ -22,7 +22,13 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+      #- uses: actions/checkout@v3
+
+      - name: Log in to Docker Hub
+          uses: docker/login-action@v1
+          with:
+            username: ${{ secrets.DOCKER_USERNAME }}
+            password: ${{ secrets.DOCKER_PASSWORD }}
 
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
@@ -30,11 +36,7 @@ jobs:
           docker pull k8s.gcr.io/build-image/kube-cross:v1.21.0-go1.16.15-buster.0
           docker tag k8s.gcr.io/build-image/kube-cross:v1.21.0-go1.16.15-buster.0 vbnmxcz/images/k8s.gcr.io:kube-cross-v1.21.0-go1.16.15-buster.0
 
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+      
 
       # Runs a set of commands using the runners shell
       - name: Push to Docker Registry
