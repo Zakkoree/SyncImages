@@ -34,11 +34,11 @@ jobs:
       - name: Run a multi-line script
         run: |
           docker pull k8s.gcr.io/build-image/kube-cross:v1.21.0-go1.16.15-buster.0
-          docker tag k8s.gcr.io/build-image/kube-cross:v1.21.0-go1.16.15-buster.0 vbnmxcz/images/k8s.gcr.io:kube-cross-v1.21.0-go1.16.15-buster.0
+          docker tag k8s.gcr.io/build-image/kube-cross:v1.21.0-go1.16.15-buster.0 vbnmxcz/kube-cross:v1.21.0-go1.16.15-buster.0
 
       
 
       # Runs a set of commands using the runners shell
       - name: Push to Docker Registry
         run: |
-          docker push vbnmxcz/images/k8s.gcr.io:kube-cross-v1.21.0-go1.16.15-buster.0
+          docker push vbnmxcz/kube-cross:v1.21.0-go1.16.15-buster.0
