@@ -23,7 +23,7 @@ jobs:
     steps:
       - name: Display the environment variables and their values
         run: |
-          print ${{ NAME }}
+          print %NAME
         shell: perl {0}
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
