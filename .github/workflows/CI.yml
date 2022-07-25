@@ -22,7 +22,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Display the environment variables and their values
-        run: echo '${{ toJSON(jobs.CI.environment)}}'
+        run: echo '${{ toJSON(github.)}}'
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Check out the repo
@@ -39,12 +39,12 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         run: |
-          docker pull ${{env.NAME}}
-          docker tag ${{env.NAME}} ${{secrets.DOCKER_USERNAME}}/${{env.TAG}}
+          docker pull ${{secrets.IMAGE_NAME}}
+          docker tag ${{secrets.IMAGE_NAME}} ${{secrets.DOCKER_USERNAME}}/${{secrets.IMAGE_TAG}}
 
       
 
       # Runs a set of commands using the runners shell
       - name: Push to Docker Registry
         run: |
-          docker push ${{secrets.DOCKER_USERNAME}}/${{env.TAG}}
+          docker push ${{secrets.DOCKER_USERNAME}}/${{secrets.IMAGE_TAG}}
