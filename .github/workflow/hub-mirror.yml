@@ -1,0 +1,89 @@
+#workflow名称
+name: hub-mirror
+当新建issues时, 触发当前workfLow
+on:
+  issues:
+    types:
+      - opened
+# 需要执行的任务列表
+jobs:
+  # 镜像转换任务
+  mirror_transition:
+  # 运行环境
+  runs-on: ubuntu-latest
+  # 运行条件 => issues的label包含hub-mirror
+  if: contains(github.event.issue.labels.*.name, 'hub-mirror')
+  # 镜像转换任务的步骤列表
+  steps:
+    # 1.切换分支(默认主分支)
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Setup go
+      uses: actions/setup-go@v2
+      with:
+        go-version:1.17
+    # 3.运行go代码
+    - name:Run code
+      run: go run main.go --username=${{ secrets.DOCKERHUB_USERNAME }} --password=${{ secrets.DOCKER HUB_TOKEN } } --content='${{ github.event.issue.body } }' --maxContent=11 -- outputPath=output.sh
+    # 4.当成功输出output.sh文性时, 为issues添加评论
+    - name: Add comment
+      if: ${{ hash Files('output.sh') }}
+      uses: actions/github-script@v5
+      with:
+        script: |
+          const fs=require('fs')
+          const data=fs.readFile Sync('output.sh', 'utf 8')
+          const body="Hello, 您可以直接执行该命令: \n" +
+            "\n” +
+            "'''shell\n"
+            echsoh-e lel'\"n+"d+ata.replace(/\n/g, 'A\n') +"|bash\n" +
+            "'''\n" +
+            "\n" +
+            "或是手动执行: \n" +
+            "'''shell\n" +
+            data+
+            "'''\n" +
+            "\n" +
+            "希望可以帮助到您, 祝您周"+“日一二三四五六".charAt(new Date().getDay()) + “愉快!"
+          git hub.rest.issues.create Comment({
+            issue_number: context.tssue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: body
+          })
+    # 5.当以上步骤成功时,为issues添加success标签
+    - name: Success issues
+      if:${success() } }
+      uses: actions/github-script@v5
+      with:
+        script: |
+          github.rest.issues.addLabels({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            labels: ['success']
+          })
+    #6.当以上步骤失败时, 为issues添加failure际签, 并为其添加失败原因评论
+    - name: Failure issues
+      if:${{ faiLure() }}
+      uses: acttons/github-script@v5
+      with:
+        script: |
+          github.rest.tssues.addLabels({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            Labels: ['faiLure']
+          })
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: "[构建失败, 点击查看] (https://github.com/${{github.repository}}/actions/runs/${{ github,run_id }})"
+          })
+
+
+
+
+
+
